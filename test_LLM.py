@@ -21,8 +21,7 @@ class GUI:
         input_frame = tk.Frame(self.window)
         input_frame.pack(fill=tk.BOTH, expand=False, padx=10, pady=10)
         
-        prompt_label = tk.Label(input_frame, text="Enter your prompt:")
-        prompt_label.pack(anchor="w")
+        tk.Label(input_frame, text="Enter your prompt:").pack(anchor="w")
         
         self.input_text = tk.Text(input_frame, height=4, wrap=tk.WORD)
         self.input_text.pack(fill=tk.BOTH, expand=True)
@@ -31,8 +30,10 @@ class GUI:
         self.gen_btn.pack(pady=10)
         self.input_text.bind("<Control-Return>", lambda event: self.generate_response())
         
-        response_label = tk.Label(self.window, text="Response:")
-        response_label.pack(anchor="w", padx=10)
+        self.clear_btn = tk.Button(input_frame, text="Clear", command=self.clear_input, padx=10, pady=5)
+        self.clear_btn.pack(pady=10)
+        
+        tk.Label(self.window, text="Response:").pack(anchor="w", padx=10)
         
         self.output_text = scrolledtext.ScrolledText(self.window, height=20, wrap=tk.WORD, state=tk.DISABLED)
         self.output_text.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
@@ -55,25 +56,25 @@ class GUI:
         image_selection_frame = tk.Frame(self.window)
         image_selection_frame.pack(fill=tk.X, expand=False, padx=10, pady=5)
 
-        self.image_path_var = tk.StringVar()
-        self.image_path_var.set("No image selected")
-
+        self.image_path_var = tk.StringVar().set("No image selected")
+        
         image_select_btn = tk.Button(image_selection_frame, text="Select Image", command=self.select_image)
         image_select_btn.pack(side=tk.LEFT, padx=(0, 10))
 
         image_path_label = tk.Label(image_selection_frame, textvariable=self.image_path_var)
         image_path_label.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
-        image_gen_btn = tk.Button(image_selection_frame, text="Generate with Image", 
-                                command=self.generate_with_image,
-                                padx=10, pady=5)
+        image_gen_btn = tk.Button(image_selection_frame, text="Generate with Image", command=self.generate_with_image,padx=10, pady=5)
         image_gen_btn.pack(side=tk.RIGHT, padx=(10, 0))
 
         self.image_frame = tk.Frame(self.window)
         self.image_preview = tk.Label(self.image_frame)
         self.image_preview.pack(pady=5)
 
-
+    def clear_input(self):
+        # self.input_text.delete(1.0, tk.END)
+        self.output_text.delete(1.0, tk.END)
+    
     def generate_response(self):
         prompt = self.input_text.get("1.0", tk.END).strip()
         if prompt:

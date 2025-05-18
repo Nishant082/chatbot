@@ -32,7 +32,7 @@ class GENAi:
     def summarize_pdf(self, pdf_path, output_widget):
         try:
             pdf_text = self.extract_pdf_text(pdf_path)
-            prompt = f"Please summarize the following document concisely:\n\n{pdf_text[:25000]}"
+            prompt = f"Please summarize the following document in detail:\n\n{pdf_text[:25000]}"
             response = self.model.generate_content(prompt)
             output_widget.config(state=tk.NORMAL) 
             output_widget.delete(1.0, tk.END)
